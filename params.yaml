@@ -1,0 +1,16 @@
+base:
+  project: Assignee
+
+data_path:
+  train:
+    train_canon: data\train\canon\
+    train_raw: data\train\huawei_raw\
+  test:
+    test_canon: data\test\canon\
+    test_raw: data\test\huawei_raw\
+    test_full: data\test\huawei_full_resolution\
+    test_visualized: data\test\huawei_visualized\
+
+data_load:
+  PATCH_WIDTH: 224
+  PATCH_HEIGHT: 224
