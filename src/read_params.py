@@ -1,5 +1,5 @@
 import yaml
-import agrparse
+import argparse
 
 def read_params(config_path):
     with open(config_path, 'r') as stream:
