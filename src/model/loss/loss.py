@@ -1,8 +1,7 @@
 import argparse
 import numpy as np
 import yaml
-import vgg
-from utils import utils
+from utils import utils, vgg
 
 def read_params(config_path):
     with open(config_path, 'r') as stream:
