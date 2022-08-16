@@ -14,3 +14,6 @@ data_path:
 data_load:
   PATCH_WIDTH: 224
   PATCH_HEIGHT: 224
+
+vgg:
+  vgg_dir: vgg\vgg.mat
