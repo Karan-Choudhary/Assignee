@@ -1,9 +1,18 @@
 import tensorflow as tf
 import numpy as np
 import argparse
+import yaml
+
+def read_params(config_path):
+    with open(config_path, 'r') as stream:
+        try:
+            config = yaml.load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+    return config
 
 
-def build_model(input, instance_norm=True, instance_norm_level_1=False):
+def assignee(input, instance_norm=True, instance_norm_level_1=False):
     # with tf.variable_scope("generator"):
 
         # Downsampling layers
@@ -300,6 +309,22 @@ def _conv_multi_block(input, max_size, num_maps, instance_norm):
 
     return output_tensor
 
+def build_model():
+    config = read_params('params.yaml')
+    PATCH_HEIGHT = config['data_load']['PATCH_HEIGHT']
+    PATCH_WIDTH = config['data_load']['PATCH_WIDTH']
+    BATCH_SIZE = config['data_load']['BATCH_SIZE']
+
+    phone_ = tf.keras.layers.Input(shape=(PATCH_HEIGHT, PATCH_WIDTH, 4), batch_size=BATCH_SIZE)
+    output_l0, output_l1, output_l2, output_l3, output_l4, output_l5 = assignee(phone_, instance_norm=True, instance_norm_level_1=False)
+    model_0 = tf.keras.Model(inputs = phone_, outputs = output_l0, name='model_0')
+    model_1 = tf.keras.Model(inputs = phone_, outputs = output_l1, name='model_1')
+    model_2 = tf.keras.Model(inputs = phone_, outputs = output_l2, name='model_2')
+    model_3 = tf.keras.Model(inputs = phone_, outputs = output_l3, name='model_3')
+    model_4 = tf.keras.Model(inputs = phone_, outputs = output_l4, name='model_4')
+    model_5 = tf.keras.Model(inputs = phone_, outputs = output_l5, name='model_5')
+    return model_0, model_1, model_2, model_3, model_4, model_5
+
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
@@ -307,9 +332,6 @@ if __name__ == '__main__':
     parsed_args = args.parse_args()
 
     phone_ = tf.keras.layers.Input(shape=(224, 224, 4), batch_size=1, dtype=tf.float32)
-    print(phone_.shape)
     output_l0, output_l1, output_l2, output_l3, output_l4, output_l5 = build_model(phone_, instance_norm=True, instance_norm_level_1=False)
-    # output_l5 = build_model(phone_, instance_norm=True, instance_norm_level_1=False)
     model = tf.keras.Model(inputs=phone_, outputs=output_l0, name='Assignee')
-    # model = tf.keras.Model(inputs=phone_, outputs=output_l5, name='Assignee')
     print("Successfully built model")
