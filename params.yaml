@@ -14,6 +14,12 @@ data_path:
 data_load:
   PATCH_WIDTH: 224
   PATCH_HEIGHT: 224
+  BATCH_SIZE: 32
+
+train:
+  level_iter: [5000, 5000, 20000, 20000, 35000, 100000]
+
+model_dir: [modelL0, modelL1, modelL2, modelL3, modelL4, modelL5]
 
 vgg:
   vgg_dir: vgg\vgg.mat
