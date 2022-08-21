@@ -6,3 +6,35 @@ stages:
       - src\get_data.py
       - data\train
       - data\test
+    params:
+      - data_path.train.train_canon
+      - data_path.train.train_raw
+      - data_path.test.test_canon
+      - data_path.test.test_raw
+      - data_path.test.test_full
+      - data_path.test.test_visualized
+
+  train_model:
+    cmd: python src\train_model.py --config=params.yaml
+    deps:
+      - src\model\model.py
+      - src\model\loss\loss.py
+      - src\model\utils\utils.py
+      - src\model\utils\vgg.py
+      - src\model\train.py
+      - src\train_model.py
+    params:
+      - data_load.PATCH_WIDTH
+      - data_load.PATCH_HEIGHT
+      - data_load.BATCH_SIZE
+      - data_load.TRAIN_SIZE
+      - train.level_iter
+      - model_dir
+      - vgg.vgg_dir
+    outs:
+      - saved_models\modelL0
+      - saved_models\modelL1
+      - saved_models\modelL2
+      - saved_models\modelL3
+      - saved_models\modelL4
+      - saved_models\modelL5
