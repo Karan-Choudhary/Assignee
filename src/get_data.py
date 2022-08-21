@@ -74,7 +74,7 @@ def load_training_batch(train_path_c, train_path_r, TRAIN_SIZE, PATCH_WIDTH, PAT
 
     return train_data, train_target
 
-def get_data(config_path, TRAIN_SIZE, DSLR_SCALE):
+def get_data(config_path, TRAIN_SIZE, DSLR_SCALE, train, test):
     config = read_params(config_path)
     train_path_c = config['data_path']['train']['train_canon']
     train_path_r = config['data_path']['train']['train_raw']
@@ -87,10 +87,17 @@ def get_data(config_path, TRAIN_SIZE, DSLR_SCALE):
     PATCH_WIDTH = config['data_load']['PATCH_WIDTH']
     PATCH_HEIGHT = config['data_load']['PATCH_HEIGHT']
 
-    train_data, train_target = load_training_batch(train_path_c, train_path_r, TRAIN_SIZE ,PATCH_WIDTH, PATCH_HEIGHT, DSLR_SCALE)
-    test_data, test_target = load_testing_batch(test_path_c, test_path_r, PATCH_WIDTH, PATCH_HEIGHT, DSLR_SCALE)
+    if train:
+        train_data, train_target = load_training_batch(train_path_c, train_path_r, TRAIN_SIZE ,PATCH_WIDTH, PATCH_HEIGHT, DSLR_SCALE)
+    if test:
+        test_data, test_target = load_testing_batch(test_path_c, test_path_r, PATCH_WIDTH, PATCH_HEIGHT, DSLR_SCALE)
 
-    return train_data, train_target, test_data, test_target
+    if train and test:
+        return train_data, train_target, test_data, test_target
+    elif train:
+        return train_data, train_target
+    else:
+        return test_data, test_target
 
 
 if __name__ == '__main__':
