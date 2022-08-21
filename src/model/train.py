@@ -57,33 +57,16 @@ def train(phone_, dslr_, LEVEL):
     gradients = tape.gradient(loss_generator, model.trainable_variables)
     optimizer.apply_gradients(zip(gradients, model.trainable_variables))
 
-def fit(train_ds, LEVEL):
+def fit(train_ds, LEVEL, iteration):
     config = read_param('params.yaml')
     SAVE_MODEL = config['model_dir']
-
-    LEVEL_ITER = config['train']['level_iter']
-# fullmetal alchemist ritherhood
-
-    LEVELS = [5, 4, 3, 2, 1, 0]
-    for level in LEVELS:
-        start_level = time.time()
-        epochs = LEVEL_ITER[level]
-        for epoch in range(epochs+1):
-            start = time.time()
-
-            for n, (input_image, target_image) in train_ds.enumerate():
-                print('.',end="")
-                if(n+1)%100==0:
-                    print()
-                train(input_image, target_image, level)
+    for n, (input_image, target_image) in train_ds.enumerate():
+        print('.',end="")
+        if(n+1)%100==0:
             print()
+        train(input_image, target_image, LEVEL)
+        print()
 
-            if (epoch+1)%5 == 0:
-                models[level].save(SAVE_MODEL[level] + '_' + str(epoch+1) + '.h5')
-            
-            print('Time taken for epoch {} is {} sec\n'.format(epoch+1, time.time()-start))
-        
-        print('Time taken for level {} is {} sec\n'.format(level, time.time()-start_level))
-
-            
+        if (iteration+1)%20 == 0:
+            models[LEVEL].save(SAVE_MODEL[LEVEL] + '_' + str(iteration+1) + '.h5')
                 
