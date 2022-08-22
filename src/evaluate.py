@@ -13,10 +13,13 @@ def evaluate_model(config_path):
     MODEL_DIR = config['model_dir']
     RESULTS = config['result']
     MODEL_NUM = config['model_num']
+    LEVEL_ITER = config['train']['level_iter']
 
     DSLR_SCALE = float(1)/(2**((MODEL_NUM+1) - 1))
 
     test_data, test_target = get_data(config_path, SAMPLES, DSLR_SCALE, False, True)
+
+    model = load_model(os.path.join(MODEL_DIR, MODEL_NUM[0]) + 'model{}_100000.h5'.format(0))
 
     for input_image, target_image in zip(test_data, test_target):
         generate_images(input_image, target_image, RESULTS)
