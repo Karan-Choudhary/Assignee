@@ -20,7 +20,9 @@ data_load:
 train:
   level_iter: [5000, 5000, 20000, 20000, 35000, 100000]
 
-model_dir: [modelL0, modelL1, modelL2, modelL3, modelL4, modelL5]
+model_dir: saved_models\
+model_num: [modelL0, modelL1, modelL2, modelL3, modelL4, modelL5]
+
 
 vgg:
   vgg_dir: vgg\vgg.mat
