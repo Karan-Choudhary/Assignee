@@ -60,6 +60,8 @@ def train(phone_, dslr_, LEVEL):
 def fit(train_ds, LEVEL, iteration):
     config = read_param('params.yaml')
     SAVE_MODEL = config['model_dir']
+    MODEL_NUM = config['model_num']
+
     for n, (input_image, target_image) in train_ds.enumerate():
         print('.',end="")
         if(n+1)%100==0:
@@ -68,5 +70,5 @@ def fit(train_ds, LEVEL, iteration):
         print()
 
         if (iteration+1)%20 == 0:
-            models[LEVEL].save(SAVE_MODEL[LEVEL] + '_' + str(iteration+1) + '.h5')
+            models[LEVEL].save(os.path.join(SAVE_MODEL, MODEL_NUM[LEVEL]) + 'model{}_{}.h5'.format(LEVEL, iteration+1))
                 
