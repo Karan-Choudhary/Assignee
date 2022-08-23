@@ -38,3 +38,19 @@ stages:
       - saved_models\modelL3
       - saved_models\modelL4
       - saved_models\modelL5
+
+  evaluate_model:
+    cmd: python src\evaluate.py --config=params.yaml
+    deps:
+      - src\evaluate.py
+      - src\display\output.py
+      - saved_models\modelL0
+      - saved_models\modelL1
+      - saved_models\modelL2
+      - saved_models\modelL3
+      - saved_models\modelL4
+      - saved_models\modelL5
+    params:
+      - test.num_samples
+    outs:
+      - Results
